@@ -1,0 +1,633 @@
+#!/bin/bash 
+
+# CS_344 Operating Systems
+# Assignment #1 
+# 04-13-15
+# Programmer: Joseph Kramer
+#
+
+
+
+
+
+###############################################################################################
+####################################### TRAP GOES HERE #######################################
+###############################################################################################
+#Description: This is here to look for a KILL signal sent in be the grading script. 
+#
+# Why: Because I needed a trap command to handle possible kill or other interrupt signals. 
+trap "rm -f *temp*; exit 1" INT HUP TERM KILL
+
+###############################################################################################
+############################### INITIAL VARAIBLES GO HERE #####################################
+###############################################################################################
+# Description: These are beginning variables to start the script. Other  variables are created and
+# changed depending on the needs of the script
+#
+# Why: I coded this in, because these are the initial variables I needed to being the script. 
+# Array for example will be used heavily same with a way to track number of rows and columns. 
+pid=$$
+num_of_cols=0		
+num_of_rows=0
+num_row_col_total=0
+array=()
+j=0
+i=0
+holder=0
+
+#*********************************************************************************************
+###############################################################################################
+################################### FUCNTIONS START HERE #####################################
+###############################################################################################
+#*********************************************************************************************
+
+###############################################################################################
+########################## ROW AVERAGE AND MEDIAN PRINTING FUNCTION ########################### 
+###############################################################################################
+# Description: This function will print the average and median depending on the value of 
+# num_of_rows. As the loop that calls this function cycles it will increment the variable
+# row. There is logic built in to handle if the file is empty, plus it will
+# print the title and numbers in the elif and then transition to printing the rest via else.
+#
+# Why: I made this print function simple on purpose. I wanted it to utilize the num_of_rows variable
+# and have the logic be based off that and the current_row variable. It could easily default print
+# if there were no rows and otherwise print out a properly formatted display
+f_row_print() {
+
+	if (( num_of_rows == 0)); then
+		echo "Average		Median"	1>&1
+	elif [[ $current_row -le 1 ]]; then
+		echo "Average		Median"
+		echo "$avg		$median"		
+	else	
+		echo "$avg		$median"	
+	fi
+}
+
+###############################################################################################
+############################# COLUMN AVERAGE PRINTING FUNCTION  ############################### 
+###############################################################################################
+# Description: This function will print the average depending on the value of num_of_cols.
+# As the loop that calls this function cycles it will increment the variable col.
+# There is logic built in to handle if the file is empty.  Otherwise in the else statement
+# it will print the title first and the cycle through the temp file, printing off the average. 
+#
+# Why: I made this a simple print, basically I check for the chance that num_of_cols == 0, 
+# otherwise when current_col == 1 the title is printed and from there I designed it to
+# cycle through the temp file, because I needed a way to print out the average information.
+f_col_print_avg() {
+	
+	local i=1
+	if (( num_of_cols == 0)); then
+		echo "Average:		 "
+		echo
+	else	
+		if (( $current_col == 1 )); then
+			echo "Average:"
+		fi
+		echo "Averages:"
+		for line in $(cat avg_holder_$pid.temp)
+		do		
+			if [[ $i -le $num_of_cols ]]; then
+				echo -n "$line "
+			fi
+			((i++))
+		done
+		echo
+	fi
+}
+
+
+###############################################################################################
+####################### COL MEDIAN PRINTING FUNCTION #######################################
+###############################################################################################
+# Description: This function will print the median depending on the value of num_of_cols.
+# As the loop that calls this function cycles it will increment the variable col.
+# There is logic built in to handle if the file is empty.  Otherwise in the else statement
+# it will print the title first and the cycle through the temp file, printing off the medians. 
+#
+# Why: I made this a simple print, basically I check for the chance that num_of_cols == 0, 
+# otherwise when current_col == 1 the title is printed and from there I designed it to
+# cycle through the temp file, because I needed a way to print out the median information. 
+f_col_print_median() {
+
+	local i=1
+	if (( num_of_cols == 0)); then
+		echo "Median: 		"
+		echo
+	else	
+		if (( $current_col == 1 )); then
+			echo "Averages:"
+		fi
+		echo "Medians:"
+		for line in $(cat median_holder_$pid.temp)
+		do		
+			if [[ $i -le $num_of_cols ]]; then
+				echo -n "$line "
+			fi
+			((i++))
+		done
+		echo
+	fi
+}
+
+###############################################################################################
+############################### FIND ROW AVERAGE FUNCTION #################################### 
+###############################################################################################
+# Description: This function will cycle through the array of rows and add each
+# individual row together. Every time it cycles j is incremented, so when it is called
+# again, the already tallied rows are not tallied again. i.e. it does not recount counted
+# rows.  Once the holder variable contains the entire row, the function then calls 
+# f_avg_and_round_rows to calculate the actual average. 
+#
+# Why: I designed it like to be very simple. Cycle through the data and add it every time.
+# then send the total to the function f_avg_and_round_rows to be processed
+f_find_row_avg() {
+	
+	holder=0
+	while [ $j -le $row_counter ]
+	do
+		holder=$((${array[$j]} + holder))		
+		j=$((j+1))	
+	done 
+	
+	f_avg_and_round_rows
+}
+
+
+###############################################################################################
+########################## FUNCITON TO CALCUALTE ROW MEDIAN ################################## 
+###############################################################################################
+# Description: This function will process the median of an array of rows. 
+# The variable mudlo is used to decide if the row is even or odd, because there 
+# is different logic required to find the median. array_m is a temp array to hold 
+# one particular row that will be used to find the median as the main array is left
+# unchanged. 
+#
+# Why: I designed this algorithm around parsing out the temp files for the required data
+# to perform the calculations, plus I used arrays. I made it like this because my entire script 
+# is based upon temp files. I decided to make this algorithm utilize the head and tail features in 
+# bash. Essentially head would take out each row that was indicated by the variable $current_row and 
+# then along with tale place it into a temp file. Once I mastered this skill I could easily manupilate 
+# the array to get out the specific data "ROW" I needed. From there it was simple calculations and logic.
+
+f_calc_row_median() {		
+	
+	local mudlo=$((num_of_cols%2))
+	local array_m=()
+	local k=0
+	
+	## this code is here to check if the columns are 2 or less
+	if [ $num_of_cols -le 2 ]; then
+		median=0
+	else	
+		median=$(((num_of_cols/2)))
+	fi
+	
+	# This code separates out each line and places it into a temp file	
+	head -n $current_row $file | tail -n 1 > calc_row_$pid.temp_$current_row 
+	
+	# If $mudlo is 0 then the value is even 
+	if [ $mudlo == 0 ]; then 
+		# The for loop will then parse the file into temp array_m
+		for line in $(cat calc_row_$pid.temp_$current_row)  
+		do
+			array_m[$k]=$line	
+			k=$((k+1))
+		done		
+		
+		# used to check for small columned inputs
+		if [ $num_of_cols -le 2 ]; then
+			median1=0
+			median2=1
+		else
+			median1=$((median-1))
+			median2=$((median))
+		fi
+		
+		# This is ran to sort the array in-order to find the median.
+		f_bubble_sort		
+		
+		local med1=${array_m[$(($median1))]}
+		local med2=${array_m[$(($median2))]}
+		
+		#This statement will compare the two medians and choose the largest median
+		if (( $med1 > $med2 )); then
+			median=$((med1))
+		else
+			median=$((med2))
+		
+		fi		
+	# If mudlo is !=0 then the value is odd
+	else
+		
+		# The for loop will then parse the file into temp array_m
+		for line in $(cat calc_row_$pid.temp_$current_row)  
+		do
+			array_m[$k]=$line	
+			k=$((k+1))
+		done
+		
+		# This will sort the array and whatever is in the middle will become the median. 
+		f_bubble_sort		
+		median=${array_m[$median]}		
+	fi
+}
+
+
+###############################################################################################
+############################ FUNCTION TO CALCULATE COLUMN MEDIAN #############################
+###############################################################################################
+# Description: This function is designed to calculate the median. It will first cat out the 
+# file and then cut each column depending col # from the calling while loop. It then sorts
+# the column and places it into a median_pid.temp_col(number) file. This file is then used 
+# to calculate the median. The mudulo variable is used to decide if the columns are even
+# or odd. 
+#
+# Why: I designed this algorithm around parsing out the temp files for the required data
+# to perform the calculations. I did not use arrays when calculating columns, so I would CAT 
+# out the file and then pipe it into cut which was going to cut out the needed column with the
+# variable $current_col. From there it was able to utilize the bash sort command and place the data
+# into a temp file. After that it was simple logic and math to get the answers. 
+# I also build in basic logic to check for situations, such as rows being <= 2 and other one offs.
+
+f_calc_col_median() {
+
+	#This code will cat out the file, cut columns 1, 2, 3, ect, depending on the cycle
+	# of the calling while loop. Then it sorts it and places it into a temp file.
+	cat $file | cut -f$current_col | sort -n > median_$pid.temp_$current_col
+	local mudlo=$((num_of_rows%2))
+	med1=0
+	med2=0
+	
+	## this code is here to check if the rows are 2 or less
+	if [ $num_of_rows -le 2 ]; then
+		median=1
+	else	
+		median=$(((num_of_rows/2)))
+	fi
+	
+	# This code handles the special case when number of rows and columns are both 1
+	if ((num_of_cols == 1 && num_of_rows==1)); then
+		local i=1
+		for line in $(cat median_$pid.temp_$current_col)
+		do
+			if ((i==$median)); then
+				median=$line
+			fi
+			((i++))
+		done	
+	
+	#This checks if its even!
+	elif [ $mudlo == 0 ]; then 
+		
+		# This code will handle the special case when number of rows is <= 2
+		if [ $num_of_rows -le 2 ]; then
+			find_median1=1
+			find_median2=2
+		else
+			find_median1=$((median))
+			find_median2=$((median+1))
+		fi
+		
+		# This code will cycle through the temp file and via an if statement it will 
+		# compare i to the find_median1 and find_median2, which are the number of rows / 2. 
+		# Once i equals the find_median1 or find_median2 value it will then place the 
+		# file value at that location in a med1 or med2 variables. 
+		local i=1
+		for line in $(cat median_$pid.temp_$current_col)   
+		do
+			if ((i==$find_median1)); then
+				med1=$line
+			elif ((i==$find_median2)); then
+				med2=$line			
+			fi			
+			i=$((i+1))			
+		done
+		# As soon as med1 is not greater than med2 it will palce med2 into the median variable.		
+		if !(( $med1 > $med2 )); then
+			median=$((med2))
+		fi
+	
+	# If the mudlo was anything but 0, it made it here.
+	else
+		# This forloop simply looks for i to match the find_median value.
+		# Once found it places the value at the spot in the the median variable. 
+		find_median=$((median+1))
+		local i=1
+		for line in $(cat median_$pid.temp_$current_col)
+		do
+			if ((i==$find_median)); then
+				median=$line
+			fi
+			((i++))
+		done
+	fi	
+	
+	# This echo statement places each median into a temp file for printing later. 
+	echo "$median" | cat >> median_holder_$pid.temp
+}
+
+
+###############################################################################################
+######################## FUNCTION TO CALCULATE COLUMN AVERAGE  ##############################
+###############################################################################################
+# Description: This function is much simpler than processing arrays. Essentially it 
+# takes the file that was passed in and cuts a section out either 1,2,3,ect depending on
+# the variable col that was incremented from the calling while loop. It hen places that col into 
+# a temp file and the for-loop simply adds all the values. Then f_avg_and_round_cols is called to handle
+# rounding up or down. Finally the answer is placed into a temp file. 
+#
+# Why: I designed it this way so I could read the file out and then cut the section I needed 
+# into another temp file. From there I could easily read in the each number from the cut temp file. 
+# Once it was all said and done I could easily load the data into average holder file for later use.
+f_find_col_avg() {
+
+	col_holder=0
+	cat $file | cut -f$current_col > cols_$pid.temp_$current_col
+	for line in $(cat cols_$pid.temp_$current_col)
+	do
+		col_holder=$((col_holder+line))
+	done
+	
+	f_avg_and_round_cols
+	echo "$avg" | cat >> avg_holder_$pid.temp
+}
+
+###############################################################################################
+########################### FUNCTION TO SORT THE ROWS ########################################
+###############################################################################################
+# Description: I could not get the sort command to work with arrays, no matter what I tried. 
+# therefore I decided to implement a generic bubble sort, in-order to find the median of the row. 
+#
+# Why: I did this because I could not find a way to make "sort" work. After trying to use variations
+# of the built in sort option, I finally went to what I know works and made a simple sorting algorithm
+f_bubble_sort() {	
+	
+	local i=0
+	local j=0
+	
+	for ((i=0;i<$num_of_cols;i++))
+	do
+		for ((j=$i; j<$num_of_cols; j++))
+		do
+			if [ ${array_m[$i]} -gt ${array_m[$j]}  ]; then
+				local t=${array_m[$i]}
+				array_m[$i]=${array_m[$j]}
+				array_m[$j]=$t
+			fi
+		done
+	done	
+}
+
+###############################################################################################
+######################## AVERAGE / ROUNDING FUNCTION FOR ROWS ################################
+###############################################################################################
+# Description:  This code uses the information passed into by it's calling function
+# to calculate the average. 2.4 will equal 2 and 2.5 will equal 3. The average value
+# is stored into the variable avg
+#
+# Why: I did this because it was the easiest way I could use whole integers and round up or down.  
+f_avg_and_round_rows() {
+
+	local x=$holder
+	local y=$num_of_cols
+	
+	local a=$((x/y))
+	local b=$(((x*10)/y))
+	local c=$((b-(a*10)))
+	
+	## If $c is >= 5 then round up otherwise round down. 
+	if [ $c -ge 5 ]; then
+		avg=$((a+1))
+	else	
+		avg=$a
+	fi
+}
+
+
+###############################################################################################
+######################## AVERAGE / ROUNDING FUNCTION FOR COLUMNS ##############################
+###############################################################################################
+# Description:  This code uses the information passed into by it's calling function
+# to calculate the average. 2.4 will equal 2 and 2.5 will equal 3. The average value
+# is stored into the variable avg
+#
+# Why: I did this because it was the easiest way I could use whole integers and round up or down. 
+f_avg_and_round_cols() {
+
+	local x=$col_holder
+	local y=$num_of_rows
+	
+	local a=$((x/y))
+	local b=$(((x*10)/y))
+	local c=$((b-(a*10)))
+	
+	## If $c is >= 5 then round up otherwise round down. 
+	if [ $c -ge 5 ]; then
+		avg=$((a+1))
+	else	
+		avg=$a
+	fi
+}
+
+
+###############################################################################################
+############################# FUNCTION TO CREATE AN ARRAY #####################################
+###############################################################################################
+# Description: This function will create an array of values from the passed 
+# in file, if the user selected ROWS, otherwise the program will not creat an array.
+#
+# Why: I created an array for row calculations, because it was the best way I knew how to 
+# manipulate the numbers. Therefore I used arrays for all row calculations. 
+f_create_array() {
+	for line in $(cat $file)
+	do
+		array[$i]=$line	
+		((i++))	
+	done
+}
+
+
+###############################################################################################
+####################### CALCUATE THE NUMBER OF ROWS AND COLUMNS  ##############################
+###############################################################################################
+# Description: This code will count the number of rows and load that into a temp file.
+# Then it will do a logic check to make sure rows was not empty. If not empty it will 
+# calc the number of columns adding up all items in the file and then dividing by the rows.
+# essential rows + x = total, solve for x.
+#
+# Why: I have it designed this way because I needed to added the number of rows into the variable
+# and via a while loop is the only way I could find to do it. After that I check for the one-off
+# that the number of rows may be empty. Otherwise I read in the number of columns via a while loop.  
+# Finally I decide to calculate number of columns with algebra as opposed to writing more script. 
+f_calc_row_column_size() {
+	wc -l < $file > row_$pid.temp
+	while read line
+	do
+		num_of_rows=$line
+	done < row_$pid.temp
+
+	if [ $num_of_rows -eq 0 ]; then 
+		num_of_cols=0	
+	### CALCUATE THE NUMBER OF COLUMNS #####
+	else	
+		wc -w < $file > row_col_total_$pid.temp
+		while read line
+		do
+			total_elements=$line	
+		done < row_col_total_$pid.temp
+
+		num_of_cols=$((total_elements/num_of_rows))  ## this calculation determines the number of columns
+		
+	fi
+}
+
+
+#*********************************************************************************************
+###############################################################################################
+#################################### FUCNTIONS END HERE #######################################
+###############################################################################################
+#***********************************************************************************************
+
+
+
+###############################################################################################
+###################### BEGINNING OF COMMAND LINE VERIFICATION ###############################
+###############################################################################################
+# Description: I used both if and case statements to get a feel for both processes. 
+# Essentially each statement is designed to verify what was entered via the command line. 
+# I had to use some dummy vars to move the logic along and not crash the script. 
+#
+# Why: I have it checking for how the file was sent to standard in first because I needed
+# place the file into a temp. From there I cycle through the possible input options, because
+# I'm making sure it will pass the grading script. 
+	
+# This if statement will verify how the file is sent to standard-in. If sent with "<" then it will
+# cat the info into a file and place that file in a var. 
+if [ ! -t 0 ]; then
+	read -t 0
+	cat > standard_input_$pid.temp
+	file=standard_input_$pid.temp
+		
+# This checks if anything was entered. it's used to move the logic along
+# as a dummy variable in case it is called. 	
+elif [ $# == 0 ]; then
+	junk_var=0	#this var is used to move the logic along and not crash the script	
+	
+# Simply checks if the file is readable
+elif [ ! -r "$2" ]; then
+	echo "./stats: cannot read $2" 1>&2	
+	exit 1	
+	
+# Checks to see if a file was entered
+else	
+	junk_var=0 		#this var is used to move the logic along and not crash the script
+	case "$2" in
+		"") echo "./stats {-rows|-cols} [file] " 1>&2; exit 1;;
+		*) file=./$2;;  
+	esac
+fi
+
+# Check to see if anything else was entered into $3
+case "$3" in
+	[a-zA-Z]*"") echo "./stats {-rows|-cols} [file] " 1>&2	; exit 1;;	
+esac
+
+### CHECK IF ROW OR COLUMN of any kinds was entered
+case "$1" in	
+	-r*)  r_or_c=-rows ;;
+	-c*)  r_or_c=-cols ;;
+	*) echo "./stats {-rows|-cols} [file]" 1>&2 ; exit 1;;	
+esac
+	
+###############################################################################################
+########################### END OF COMMAND LINE VERIFICATION ##################################
+###############################################################################################
+
+
+###############################################################################################
+############################ USED TO DETERMIN IF ROWS OR COLUMNS ############################
+###############################################################################################
+# Description: This code already assumes that the command line has been verified and 
+# that r_or_c, which stands for --> row_or_column, will contain either a row or column 
+# indicator. 
+#
+# f_row_print--> is cycled through while row being printed is less that the total number of 
+# rows. 
+#
+# f_create_array--> will create the array used to preform all ROW calculations
+#
+# row_counter --> used to determine which row to calculate. First it calculates the first row
+# 					and as the number of next_rows increases so does the rows being calculated. 
+#					So after the first row is calculated, next_row increments, and then the next 
+#					row is calculated. It's sole purpose is to assist in calculating the average 
+#
+# Why:	This block of code is the frame work that the rest of the script runs from. I coded
+# it this way, because I needed  a main() function. From here I can call functions that create arrays, 
+# count the number of printed rows or columns, preform calculations, ect.. I designed it to 
+# initially check if rows or columns where entered, because that would dictate how the 
+# program would proceed. I calculate the row and column sizes first because the script logic requires
+# the number of rows and columns to work. For example if the number of rows is 0, then the algorithm
+# will call the function to print nothing but the headers.  When columns are being calculated current_col
+# is used for determining the print location as well as naming temp files, because it was the easiest way to 
+# track where in the column the algorithm was in processing it. 
+
+if [ $r_or_c == -rows ]; then	
+	f_calc_row_column_size	
+	if [ $num_of_rows -eq 0 ]; then 		
+		f_row_print
+	else
+		f_create_array							# creates the array
+		current_row=1							# current_row is used for counting through the print function
+		row_counter=$((num_of_cols-1))			# the counter is used to calc the row averages
+		next_row=1								# next_row is used in determining the next row to calculate 
+		while [ $current_row -le $num_of_rows ]
+		do
+				f_find_row_avg					# calculates only row averages
+				f_calc_row_median				# calculates only medians
+				f_row_print						# print all values associated to row calculations
+				((next_row++))
+				((current_row++))
+				row_counter=$(((num_of_cols*next_row)-1))	
+		done
+	fi	
+elif [ $r_or_c == -cols ]; then
+		f_calc_row_column_size
+		current_col=1							# current_col is used in the print function & determining which col to calculate. 
+		while [ $current_col -le $num_of_cols ]
+		do
+			f_find_col_avg						# calculates only column averages	
+			f_calc_col_median					# calculates only column medians. 
+			((current_col++))
+		done
+	f_col_print_avg								# prints only average values 
+	f_col_print_median							# print only median values 
+fi
+
+
+###############################################################################################
+################################# ERASE ALL TEMP FILES #######################################
+###############################################################################################
+# Description: This will remove ALL files with TEMP in them.
+#
+# Why: I used the special character * to make sure all files that have TEMP in them are gone, because
+# the instructions were to delete all temp files. 
+rm -f *temp*
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
