@@ -1,0 +1,50 @@
+@charset "UTF-8";
+/* CSS Document */
+
+ 
+tr:nth-child(even) {
+	background-color: #4493FD;
+}
+tr:nth-child(odd) {
+	background-color: #16EC16;
+}
+tr:first-child {
+	background-color: white;
+}
+th:nth-child(7n+1) {
+	font-style: italic;
+	font-weight: normal;
+}
+td:nth-child(2) {
+	color: red;
+}
+td:nth-child(4) {
+	color: blue;
+}
+tr:nth-child(7) td {
+	background-color: white;
+	font-style: normal;
+	color: black;
+}
+dt:hover + dd {
+	background-color: purple;
+}
+.outer-content {
+	background-color: pink;
+	margin-top: 20px;
+	margin-right: 25%;
+	margin-left: auto;
+}
+.inner-content {
+	background-color: #4493FD;
+	/*I used 12.5% for the left and right to equal a total of 25% or 3/4 of the parent div's width*/
+	margin-left: 12.5%;
+	margin-right: 12.5%;
+	text-align: center;
+}
+img {
+	float: left;
+}
+table, tbody, th, tr, td {
+	border: 1px solid black;
+}

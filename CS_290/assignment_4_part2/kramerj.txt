@@ -1,0 +1,17 @@
+Start: Tue, 05 May 2015 08:56:44 -0800 
+End: Wed, 06 May 2015 01:01:03 -0800 
+Task: I spent the majority the day playing around with options. Connecting to and creating the database took more time than I thought. Simply creating it correctly and then querying with the correct queries is a process. I was able to get a basic frame work in place and a game plan on how to handle the rest of the assignment. I plan on coding the different tasks (i.e adding and checking out) to different php files.
+
+ 
+Start: Wed, 6 May 2015 09:55:11 -0800 
+End: Thu, 7 May 2015 1:34:43:03 -0800 
+Task: This provided a significant challenge. Debugging is a nightmare, I ended up writing down what the code was doing to follow along and find errors. I would get countless errors, I would fix one thing and break another. I ended up taking baby steps and backing up frequently. Once I got the add function working properly, I spent the rest of the day playing around with getting it to display correctly. Once I got that to a ok level, I then moved onto providing checkin and checkout button and their functionality. Finally I created a delete all button and php file 
+
+
+Start: Sat, 09 May 2015 15:34:16 -0800 
+End: Sat, 09 Apr 2015 20:13:53 -0800 
+Task: I finished up the check in and outs, plus I got the single delete working. I then spent hours working on display bugs. I somehow missed in the directions that its OK to enter a Video with out a length and category at the same time. So I re-did my logic there, plus I worked on getting my categorize feature to not display empty categories. Ended up being a simple fix, just an if statement. Spent the rest of my time testing and making minor changes. 
+
+Start: Mon, 11 May 2015 16:34:10 -0800 
+End: Sat, 09 Apr 2015 16:54:13:22 -0800 
+Task: Since it’s due on Monday as opposed to Sunday. I went through and made some minor changes. Syntax stuff mostly.

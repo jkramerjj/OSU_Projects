@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Node.js - Synchronous</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" href="assets/css/resets.css">
+<link rel="stylesheet" type="text/css" href="assets/css/styles.css">
+</head>
+<body>
+<div class="master">
+  <header>
+    <h1>Node.js -- From Install to Asynchronization</h1>
+    <h3>By: Joseph Kramer</h3>
+    <h3>CS290 -- Project 5 &quot;How-To&quot;</h3>
+  </header>
+  <div class="navbar">
+    <ul>
+      <li class ="nav-content" > <a href="index.html">Introduction</a> </li>
+      <li class ="nav-content"> <a href="install_node.html">How To Install</a> </li>
+      <li class ="nav-content"> <a href="verify_node.html">Verify Installation</a></li>
+      <li class="nav-content"> <a href="hello_world.html">"Hello World"</a> </li>
+      <li class ="nav-content"> <a href="process_arguments.html">Passing Arguments</a> </li>
+      <li class ="nav-content"> <a href="synchronous.html">Synchronous File Read In</a> </li>
+      <li class ="nav-content"> <a href="asynchronous.html">Asynchronous File Read In</a> </li>
+    </ul>
+  </div>
+  <div class="main_1">
+    <h2  class="back_up">Background on what's happening here</h2>
+    <p>We are working with synchronous file systems otherwise known as blocking file systems. This means it reads in all the data before proceeding onto something else and that it will block other inputs until its done. Here is the specific function you need to use: </p>
+    <p>
+    <pre><code>var file = fs.readFileSync(process.argv[2]);</code></pre>
+    This function does all the heavy lifting. It returns all the content of whatever was passed into it and is designed to return a buffer object, that can then be manipulated with generic JavaScript.  However, there is also the option of passing in an "encoding" option, such as "utf-8", that will force the function to return a string right away, thereby eliminating the needs to use toString().
+    <p></p>
+    <h2>Reading In A File</h2>
+    <p>Down to business </p>
+    <p><span class="bigIt">1</span>) You need to create a simple text file called
+    <pre><code>test.txt</code></pre>
+    and type this into it:
+    <pre><code>line1;
+line2;
+line3;</code> </pre>
+    <p><span class="bigIt">2</span>) Now it's time to create a JavaScript file called "io.js" and code it so that it reads in another file and returns the number of strings. The first important piece of information we need to know is: Since we are using a file-system global module we will use
+    <pre><code>var fs = require('fs');</code></pre>
+    It's also worth mentioning why we're using this:  Since Node.js deals with objects we are creating a fs object, Which is short of filestream object. This object has all the characteristics that belong to a filestream. i.e. Open, Close, Read, Write, ect.
+    <p></p>
+    <p><span class="bigIt">3</span>) To process that file we will use the Node.js function we talked about earlier of: </p>
+    <pre><code>var file = fs.readFileSync(process.argv[2]);</code></pre>
+    <p></p>
+    <p> Remember from <a href="process_arguments.html">Passing Arguments</a> that the data you need is stored in argv[2]. Meaning the file we want to access is in the location argv[2]. </p>
+    <p><span class="bigIt">4</span>) Now some generic JavaScript to get the job done. </p>
+    <p>
+    <pre><code>var contents = file.toString().split('\n').length - 1;
+console.log(contents);</code></pre>
+    <p></p>
+    <p><span class="bigIt">5</span>) At this point we need to call the file. Can you remember how do that?
+    <pre><code>node io.js test.txt;</code></pre>
+    It should look something like this: <br>
+    <img src="assets/imgs/io.png" width="600" height="354" alt=""/><br>
+    <p></p>
+    <h2>Onto what makes Node.js so Special: Asynchronous I/O </h2>
+    <p> Finally it's time to unleash the power of Node.js <a href="asynchronous.html">Click Here</a></p>
+  </div>
+</div>
+</body>
+</html>

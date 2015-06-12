@@ -1,0 +1,38 @@
+@charset "UTF-8";
+/* CSS Document */
+
+tr {
+	font-size: 1.25em;
+	text-align: left;
+	margin-right: 43px;
+}
+h2 {
+	font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", Verdana, sans-serif;
+	text-shadow: 5px 4px 2px;
+}
+body {
+	background-image: url(VHS_.JPG);
+	background-repeat: repeat-y;
+	background-origin: content-box;
+	background-size: 64% 94%;
+}
+tfoot {
+}
+td {
+	color: #000000;
+}
+tr th label {
+	color: #336DB1;
+	font-size: 2em;
+}
+h3 {
+	font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", Verdana, sans-serif;
+	text-shadow: 5px 4px 9px;
+}
+p {
+	text-transform: uppercase;
+	color: rgba(122,92,9,1.00);
+	font-family: Cambria, "Hoefler Text", "Liberation Serif", Times, "Times New Roman", serif;
+	font-weight: bold;
+	font-size: large;
+}

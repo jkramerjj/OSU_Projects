@@ -1,0 +1,101 @@
+.master {
+	margin-left: 25%;
+	margin-right: 25%;
+}
+
+body {
+	background-color: #DAE9B2;	
+}
+
+header {
+	background-color: #80BA00;
+	padding-top: 1%;
+	padding-right: 1%;
+	padding-bottom: 1%;
+	padding-left: 1%;
+}
+
+.navbar {
+	width: 19%;
+	float: left;
+}
+
+.main_1 {
+	background-color: #F8F8F8;
+	color: #303030;
+	font-size: 15px;
+	padding: 1em;
+	width: 80%;
+	font-size: 1.2em;
+}
+
+code {
+	font-family: Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", Monaco, "Courier New", monospace;
+	font-weight: normal;
+	color: #000000;
+	background-color: #f8f8f8;
+	padding-top: 1px;
+	padding-right: 1px;
+	padding-bottom: 1px;
+	padding-left: 1px;
+	border-radius: 9px;
+}
+
+pre {
+	border: 1px solid #610405;
+	margin-top: 4px;
+	margin-right: 4px;
+	margin-bottom: 4px;
+	margin-left: 4px;
+	padding-top: 6px;
+	padding-right: 6px;
+	padding-bottom: 6px;
+	padding-left: 6px;
+	border-radius: 13px;
+}
+
+.navbar,.main_1 {
+	display: inline-block;
+	vertical-align: top;
+}
+
+.nav-content{
+	border-bottom: 2px solid black;
+	list-style: none;
+}
+
+.nav-content a {
+	color: #672122;
+	display: block;
+	font-size: 1.25em;
+	font-weight: bold;
+	padding: 1em;
+	text-align: center;
+	text-decoration: none;
+}
+
+h1 {
+	font-size: 2em;
+	color: rgba(255,255,255,1.00);
+}
+h3 {
+	font-size: 1.5em;
+	color: rgba(255,255,255,1.00);
+}
+.main_1 ul li {
+	margin-left: 28px;
+}
+
+h2 {
+	font-family: Impact, Haettenschweiler, "Franklin Gothic Bold", "Arial Black", sans-serif;
+	font-size: 1.5em;
+	margin-bottom: 3%;
+	margin-top: 4%;
+	color: rgba(103,34,35,1.00);
+}
+.back_up {
+	margin-top: -9px;
+}
+.bigIt {
+	font-size: 34px;
+}
