@@ -1,0 +1,119 @@
+**** GENERAL USE QUERIES ******
+
+
+// Search Queries 
+// Query for the race name of the people who are NOT in a user chosen city. 
+SELECT skr.name FROM sky_race skr
+INNER JOIN sky_people skp ON skp.sky_raceID=skr.id
+INNER JOIN sky_kingdom skk ON skk.id = skp.sky_kingdomID
+WHERE skk.name <> [kingdom input]
+GROUP BY skr.name
+
+
+// Query for first and last name from sky_people table  of those who are NOT a user chosen race.
+SELECT sky_people.first_name, sky_people.last_name FROM sky_people
+INNER JOIN sky_race ON sky_race.id=sky_people.sky_raceID 
+WHERE sky_race.name <> [race input]
+GROUP BY sky_people.first_name 
+
+// Query for the race name of the people who are in a user chosen city. 
+SELECT skr.name FROM sky_race skr
+INNER JOIN sky_people skp ON skp.sky_raceID=skr.id
+INNER JOIN sky_kingdom skk ON skk.id = skp.sky_kingdomID
+WHERE skk.name = [kingdom input]
+GROUP BY skr.name
+
+// Query for first and last name from sky_people table  of those who are  a user chosen race.
+SELECT sky_people.first_name, sky_people.last_name FROM sky_people
+INNER JOIN sky_race ON sky_race.id=sky_people.sky_raceID 
+WHERE sky_race.name =[race input]
+GROUP BY sky_people.first_name 
+
+// Query for the first and last name form sky_people table to see what faction they belong to, ordered by faction.name 
+SELECT sky_people.first_name as 'First Name', sky_people.last_name as 'Last Name', sky_faction.name as 'Faction Name'  FROM sky_people
+INNER JOIN sky_faction_category sfc ON sfc.sky_peopleID=sky_people.id
+INNER JOIN sky_faction on sky_faction.id=sfc.sky_factionID
+WHERE sky_people.first_name=[first_name input] AND sky_people.last_name = [last_name input]
+ORDER BY sky_faction.name
+
+// Query Kingdom population
+SELECT name, population FROM sky_kingdom
+WHERE population >= [user input]
+
+// Query a persons weapon of choice
+SELECT weapon FROM sky_people
+WHERE first_name = [user_input] AND last_name=[user_input] 
+
+
+
+
+
+// Insert Queries 
+// Add a Kingdom
+INSERT INTO sky_kingdom(name, population, typical_weather) VALUES ([name input], [population input], [typical_weather input])
+
+// Add a Race
+INSERT INTO sky_race(name, special_ability) VALUES ([name input], [special_ability input])
+
+// Add Faction
+INSERT INTO sky_faction(name, mission) VALUES ([name input], [mission input])
+
+// Add Faction Category
+INSERT INTO sky_faction_category(sky_peopleID, sky_factionID, interesting_note) VALUES ([sky_peopleId input],  [sky_factionID input], [interesting_note input])
+
+// Add a Person
+INSERT INTO sky_people(first_name, last_name, weapon, sky_kingdomID, sky_raceID) VALUES ([first_name input], [last_name input], [weapon input], [sky_kingdomId input], [sky_raceId input])
+
+
+// Updates
+// Update Kingdom
+UPDATE sky_kingdom SET name=[user input] WHERE id=[user input]
+
+// Update Race Name
+UPDATE sky_race SET name=[user input] WHERE id=[user input]
+
+// Update Faction Name
+UPDATE sky_faction SET name=[user input] WHERE id=[user input]
+
+// Update Weapon Used
+UPDATE sky_people SET weapon=[user input] WHERE first_name=[user input]AND last_name = [user input]
+
+
+
+// Select Statements 
+SELECT id, first_name, last_name FROM sky_people
+
+SELECT id, name FROM sky_faction
+
+SELECT id, name FROM sky_kingdom
+
+SELECT id, name FROM sky_race
+
+SELECT * FROM sky_people
+
+SELECT * FROM sky_weather
+
+SELECT sk.id AS id, sk.name AS name, sk.population AS population, sw.typical_weather AS typical_weather  
+FROM sky_kingdom sk INNER JOIN sky_weather sw ON sw.id=sk.sky_weatherID
+
+SELECT * FROM sky_race
+
+SELECT * FROM sky_faction
+
+SELECT sp.first_name AS fname, sp.last_name AS lname, sf.name AS name, sfk.interesting_note AS note 
+FROM sky_faction_category sfk
+INNER JOIN sky_people sp ON sp.id=sfk.sky_peopleID
+INNER JOIN sky_faction sf ON sf.id=sfk.sky_factionID
+
+
+// Delete Statements
+DELETE FROM sky_race WHERE name=[user input] 
+DELETE FROM sky_kingdom WHERE name=[user input] 
+
+TRUNCATE sky_faction_category
+TRUNCATE sky_people
+TRUNCATE sky_faction
+TRUNCATE sky_race
+TRUNCATE sky_kingdom
+TRUNCATE sky_weather
+    
