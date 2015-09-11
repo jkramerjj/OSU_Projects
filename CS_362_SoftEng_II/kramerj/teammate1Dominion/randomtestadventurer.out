@@ -1,0 +1,22 @@
+\Random Test Adventurer: 
+
+TESTING THE ** adventurer() ** Function 
+
+*** TEST 1a: 50000 ITERATIONS OF THE ADVENTURER FUNCTION WITH GUARANTEED 2+ TREASURE CARDS IN DECK  ****
+Total successes: 77657
+Total Errors: 467
+
+*** TEST 2a: 50000 ITERATIONS OF THROUGHT THE PLAYCARD FUNCTION WITH GUARANTEED 2+ TREASURE CARDS IN DECK ****
+Total successes: 39189
+Total Errors: 39189
+
+**** TEST 1b: 50000 ITERATIONS OF THE ADVENTURER FUNCTION NO WITH GUARANTEE OF TREASURE CARDS IN DECK ****
+Total successes: 77490
+Total Errors: 482
+File 'randomtestadventurer.c'
+Lines executed:66.67% of 207
+Branches executed:70.65% of 184
+Taken at least once:64.13% of 184
+Calls executed:64.22% of 204
+randomtestadventurer.c:creating 'randomtestadventurer.c.gcov'
+

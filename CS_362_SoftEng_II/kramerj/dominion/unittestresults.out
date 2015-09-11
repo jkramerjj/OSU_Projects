@@ -1,0 +1,311 @@
+Result for running tests:
+unittest1.c:
+
+TESTING THE ** shuffle() ** Function 
+
+
+First Test: Shuffling the deck #1 
+First Test: Checking if decks #1 and #2 are different
+First Test: ** PASSED ** 
+
+Second Test: Shuffling deck #2
+Second Test: Checking if decks #2 and #1 are different
+Second Test: ** PASSED ** 
+
+Test 1 and 2 are ** SUCCESSFUL **
+All tests passed
+
+DONE TESTING ** shuffle() ** FUNCTION 
+
+File 'dominion.c'
+Lines executed:15.69% of 580
+Branches executed:15.83% of 417
+Taken at least once:13.19% of 417
+Calls executed:7.37% of 95
+dominion.c:creating 'dominion.c.gcov'
+
+unittest2.c:
+
+TESTING THE ** isGameOver() ** Function 
+
+First Test: Game will end when province counter == 0. The count down begins at 8
+First Test: ** PASSED ** game DID NOT end, because province was at 8
+First Test: ** PASSED ** game DID NOT end, because province was at 7
+First Test: ** PASSED ** game DID NOT end, because province was at 6
+First Test: ** PASSED ** game DID NOT end, because province was at 5
+First Test: ** PASSED ** game DID NOT end, because province was at 4
+First Test: ** PASSED ** game DID NOT end, because province was at 3
+First Test: ** PASSED ** game DID NOT end, because province was at 2
+First Test: ** PASSED ** game DID NOT end, because province was at 1
+First Test: ** PASSED ** game DID end, because province was at 0
+
+Second Test: Validating that if supplyCount[i] equals 0 for 3 times that the game ends
+Second Test: ** PASSED ** The game CONTINUED, because supplyCount == 0 1 time(s) 
+Second Test: ** PASSED ** The game CONTINUED, because supplyCount == 0 2 time(s) 
+Second Test: ** PASSED ** The game ENDED, because the supplyCount == 0 3 times.
+Second Test: ** PASSED ** The game ENDED, because the supplyCount == 0 4 times.
+Second Test: ** PASSED ** The game ENDED, because the supplyCount == 0 5 times.
+Second Test: ** PASSED ** The game ENDED, because the supplyCount == 0 6 times.
+Second Test: ** PASSED ** The game ENDED, because the supplyCount == 0 7 times.
+Second Test: ** PASSED ** The game ENDED, because the supplyCount == 0 8 times.
+Second Test: ** PASSED ** The game ENDED, because the supplyCount == 0 9 times.
+Second Test: ** PASSED ** The game ENDED, because the supplyCount == 0 10 times.
+Second Test: ** PASSED ** The game ENDED, because the supplyCount == 0 11 times.
+Second Test: ** PASSED ** The game ENDED, because the supplyCount == 0 12 times.
+Second Test: ** PASSED ** The game ENDED, because the supplyCount == 0 13 times.
+Second Test: ** PASSED ** The game ENDED, because the supplyCount == 0 14 times.
+Second Test: ** PASSED ** The game ENDED, because the supplyCount == 0 15 times.
+Second Test: ** PASSED ** The game ENDED, because the supplyCount == 0 16 times.
+Second Test: ** PASSED ** The game ENDED, because the supplyCount == 0 17 times.
+Second Test: ** PASSED ** The game ENDED, because the supplyCount == 0 18 times.
+Second Test: ** PASSED ** The game ENDED, because the supplyCount == 0 19 times.
+Second Test: ** PASSED ** The game ENDED, because the supplyCount == 0 20 times.
+Second Test: ** PASSED ** The game ENDED, because the supplyCount == 0 21 times.
+Second Test: ** PASSED ** The game ENDED, because the supplyCount == 0 22 times.
+Second Test: ** PASSED ** The game ENDED, because the supplyCount == 0 23 times.
+Second Test: ** PASSED ** The game ENDED, because the supplyCount == 0 24 times.
+Second Test: ** PASSED ** The game ENDED, because the supplyCount == 0 25 times.
+All test Passed
+
+DONE TESTING ** isGameOver() ** FUNCTION 
+
+File 'dominion.c'
+Lines executed:17.41% of 580
+Branches executed:17.75% of 417
+Taken at least once:15.11% of 417
+Calls executed:7.37% of 95
+dominion.c:creating 'dominion.c.gcov'
+
+unittest3.c:
+
+TESTING THE ** getCost() ** Function 
+
+Test: ** PASSED ** Card curse == Cost 0
+Test: ** PASSED ** Card estate == Cost 2
+Test: ** PASSED ** Card duchy == Cost 5
+Test: ** PASSED ** Card province == Cost 8
+Test: ** PASSED ** Card copper == Cost 0
+Test: ** PASSED ** Card silver == Cost 3
+Test: ** PASSED ** Card gold == Cost 6
+Test: ** PASSED ** Card adventurer == Cost 6
+Test: ** PASSED ** Card council_room == Cost 5
+Test: ** PASSED ** Card feast == Cost 4
+Test: ** PASSED ** Card gardens == Cost 4
+Test: ** PASSED ** Card mine == Cost 5
+Test: ** PASSED ** Card remodel == Cost 4
+Test: ** PASSED ** Card smithy == Cost 4
+Test: ** PASSED ** Card village == Cost 3
+Test: ** PASSED ** Card baron == Cost 4
+Test: ** PASSED ** Card great_hall == Cost 3
+Test: ** PASSED ** Card minion == Cost 5
+Test: ** PASSED ** Card steward == Cost 3
+Test: ** PASSED ** Card tribute == Cost 5
+Test: ** PASSED ** Card ambassador == Cost 3
+Test: ** PASSED ** Card cutpurse == Cost 4
+Test: ** PASSED ** Card embargo == Cost 2
+Test: ** PASSED ** Card outpost == Cost 5
+Test: ** PASSED ** Card salvager == Cost 4
+Test: ** PASSED ** Card sea_hag == Cost 4
+Test: ** PASSED ** Card treasure_map == Cost 4
+All tests passed
+
+DONE TESTING ** getCost() ** FUNCTION 
+
+File 'dominion.c'
+Lines executed:22.41% of 580
+Branches executed:24.46% of 417
+Taken at least once:21.58% of 417
+Calls executed:7.37% of 95
+dominion.c:creating 'dominion.c.gcov'
+
+unittest4.c:
+
+TESTING THE ** supplyCount() ** Function 
+
+First Test: Make sure supplyCount() function returns the correct initial valuesFirst Test: ** PASSED ** Card[0] == 10 
+First Test: ** PASSED ** Card[1] == 8 
+First Test: ** PASSED ** Card[2] == 8 
+First Test: ** PASSED ** Card[3] == 8 
+First Test: ** PASSED ** Card[4] == 46 
+First Test: ** PASSED ** Card[5] == 40 
+First Test: ** PASSED ** Card[6] == 30 
+First Test: ** PASSED ** Card[7] == 10 
+First Test: ** PASSED ** Card[8] == 10 
+First Test: ** PASSED ** Card[9] == 10 
+First Test: ** PASSED ** Card[10] == 8 
+First Test: ** PASSED ** Card[11] == 10 
+First Test: ** PASSED ** Card[12] == 10 
+First Test: ** PASSED ** Card[13] == 10 
+First Test: ** PASSED ** Card[14] == 10 
+First Test: ** PASSED ** Card[15] == 10 
+First Test: ** PASSED ** Card[16] == 8 
+First Test: ** PASSED ** Card[17] == -1 
+First Test: ** PASSED ** Card[18] == -1 
+First Test: ** PASSED ** Card[19] == -1 
+First Test: ** PASSED ** Card[20] == -1 
+First Test: ** PASSED ** Card[21] == -1 
+First Test: ** PASSED ** Card[22] == -1 
+First Test: ** PASSED ** Card[23] == -1 
+First Test: ** PASSED ** Card[24] == -1 
+First Test: ** PASSED ** Card[25] == -1 
+First Test: ** PASSED ** Card[26] == -1 
+
+Second Test: Change supply count on all cards to verify that it returns the correct number.
+Second Test: ** PASSED ** Card[0] == 0 
+Second Test: ** PASSED ** Card[1] == 1 
+Second Test: ** PASSED ** Card[2] == 2 
+Second Test: ** PASSED ** Card[3] == 3 
+Second Test: ** PASSED ** Card[4] == 4 
+Second Test: ** PASSED ** Card[5] == 5 
+Second Test: ** PASSED ** Card[6] == 6 
+Second Test: ** PASSED ** Card[7] == 7 
+Second Test: ** PASSED ** Card[8] == 8 
+Second Test: ** PASSED ** Card[9] == 9 
+Second Test: ** PASSED ** Card[10] == 10 
+Second Test: ** PASSED ** Card[11] == 11 
+Second Test: ** PASSED ** Card[12] == 12 
+Second Test: ** PASSED ** Card[13] == 13 
+Second Test: ** PASSED ** Card[14] == 14 
+Second Test: ** PASSED ** Card[15] == 15 
+Second Test: ** PASSED ** Card[16] == 16 
+Second Test: ** PASSED ** Card[17] == 17 
+Second Test: ** PASSED ** Card[18] == 18 
+Second Test: ** PASSED ** Card[19] == 19 
+Second Test: ** PASSED ** Card[20] == 20 
+Second Test: ** PASSED ** Card[21] == 21 
+Second Test: ** PASSED ** Card[22] == 22 
+Second Test: ** PASSED ** Card[23] == 23 
+Second Test: ** PASSED ** Card[24] == 24 
+Second Test: ** PASSED ** Card[25] == 25 
+Second Test: ** PASSED ** Card[26] == 26 
+
+Third Test: Change supply count on " int k[10] = {adventurer, council_room,
+feast, gardens, mine, remodel, smithy, village, baron, great_hall" to
+verify that it returns the correct value.
+Third Test: ** PASSED ** Card[0] == 0 
+Third Test: ** PASSED ** Card[1] == 1 
+Third Test: ** PASSED ** Card[2] == 2 
+Third Test: ** PASSED ** Card[3] == 3 
+Third Test: ** PASSED ** Card[4] == 4 
+Third Test: ** PASSED ** Card[5] == 5 
+Third Test: ** PASSED ** Card[6] == 6 
+Third Test: ** PASSED ** Card[7] == 7 
+Third Test: ** PASSED ** Card[8] == 8 
+Third Test: ** PASSED ** Card[9] == 9 
+All tests passed
+
+DONE TESTING ** supplyCount() ** FUNCTION 
+
+File 'dominion.c'
+Lines executed:22.76% of 580
+Branches executed:24.46% of 417
+Taken at least once:21.58% of 417
+Calls executed:7.37% of 95
+dominion.c:creating 'dominion.c.gcov'
+
+cardtest1.c:
+
+TESTING THE ** Smithy Card ** Function 
+
+TEST 1 for player 1.
+TEST: ** FAILED ** because hand had 8 cards instead of 7 cards.
+
+TEST 2 for player 2.
+TEST: ** FAILED ** because hand had 8 cards instead of 7 cards.
+
+Not every test passed
+
+DONE TESTING ** Smithy Card ** FUNCTION 
+
+File 'dominion.c'
+Lines executed:25.52% of 580
+Branches executed:26.38% of 417
+Taken at least once:22.78% of 417
+Calls executed:9.47% of 95
+dominion.c:creating 'dominion.c.gcov'
+
+cardtest2.c:
+
+TESTING THE ** Adventurer Card ** Function 
+
+FIRST TEST: ** FAILED ** Expected Cards 7, got cards 6
+
+SECOND TEST: ** FAILED ** Expected Cards 8, got cards 7
+
+THIRD TEST: ** FAILED ** Expected Cards 9, got cards 8
+
+Not every test passed
+
+DONE TESTING ** Adventurer Card ** FUNCTION 
+
+File 'dominion.c'
+Lines executed:28.28% of 580
+Branches executed:29.26% of 417
+Taken at least once:24.94% of 417
+Calls executed:10.53% of 95
+dominion.c:creating 'dominion.c.gcov'
+
+cardtest3.c:
+
+TESTING THE ** Village Card ** Function 
+
+TEST 1 for player 1.
+TEST: ** FAILED ** because Number of Actions are 9 instead of 8 cards.
+
+TEST 2 for player 2.
+TEST: ** FAILED ** because Number of Actions are 15 instead of 14 cards.
+
+Not every test passed
+
+DONE TESTING ** Village Card ** FUNCTION 
+
+File 'dominion.c'
+Lines executed:29.14% of 580
+Branches executed:29.26% of 417
+Taken at least once:24.94% of 417
+Calls executed:12.63% of 95
+dominion.c:creating 'dominion.c.gcov'
+
+cardtest4.c:
+
+TESTING THE ** Council Room Card ** Function 
+
+
+TESTING when Player 1 has the  ** Council Room Card **  
+
+TEST 1: ** PASSED **  Player 1 has 8 cards and should have 8 cards.
+TEST 1: ** PASSED **  Player 1 has 6 cards and should have 6 cards.
+TEST 1: ** PASSED **  Player 1 has 6 cards and should have 6 cards.
+TEST 1: ** PASSED **  Player 1 has 6 cards and should have 6 cards.
+
+TESTING when Player 2 has the  ** Council Room Card **  
+
+TEST 2: ** FAILED **  Player 1 has 5 cards and should have 6 cards.
+TEST 2: ** PASSED **  Player 1 has 8 cards and should have 8 cards.
+TEST 2: ** PASSED **  Player 1 has 6 cards and should have 6 cards.
+TEST 2: ** PASSED **  Player 1 has 6 cards and should have 6 cards.
+
+TESTING when Player 3 has the  ** Council Room Card **  
+
+TEST 3: ** FAILED **  Player 1 has 5 cards and should have 6 cards.
+TEST 3: ** PASSED **  Player 1 has 6 cards and should have 6 cards.
+TEST 3: ** PASSED **  Player 1 has 8 cards and should have 8 cards.
+TEST 3: ** PASSED **  Player 1 has 6 cards and should have 6 cards.
+
+TESTING when Player 4 has the  ** Council Room Card **  
+
+TEST 4: ** FAILED **  Player 1 has 5 cards and should have 6 cards.
+TEST 4: ** PASSED **  Player 1 has 6 cards and should have 6 cards.
+TEST 4: ** PASSED **  Player 1 has 6 cards and should have 6 cards.
+TEST 4: ** PASSED **  Player 1 has 8 cards and should have 8 cards.
+
+Not every test passed
+DONE TESTING ** Council Room Card ** FUNCTION 
+
+File 'dominion.c'
+Lines executed:31.72% of 580
+Branches executed:31.18% of 417
+Taken at least once:27.34% of 417
+Calls executed:15.79% of 95
+dominion.c:creating 'dominion.c.gcov'
+

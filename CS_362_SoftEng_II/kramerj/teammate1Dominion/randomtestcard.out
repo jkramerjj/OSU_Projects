@@ -1,0 +1,20 @@
+\Random Test Card: 
+
+
+Random Tester: SMITHY
+*** TEST 1a: 50000 ITERATIONS OF THE SMITHY FUNCTION ****
+Total Successes: 50000
+Total Errors: 0
+
+*** TEST 1b: 50000 ITERATIONS OF THE SMITHY FUNCTION VIA THE PLAYCARD FUNCTION ****
+Total Successes: 50000
+Total Errors: 0
+
+
+File 'randomtestcard.c'
+Lines executed:88.41% of 69
+Branches executed:80.00% of 20
+Taken at least once:60.00% of 20
+Calls executed:86.21% of 29
+randomtestcard.c:creating 'randomtestcard.c.gcov'
+
