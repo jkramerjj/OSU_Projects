@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap -->
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="https:////netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+<title>Scientist</title>
+<link rel="stylesheet" type="text/css" href="/static/stylesheets/science.css">
+</head>
+<body>
+	<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+					aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">Scientists Project Tracker</a>
+			</div>
+			<div id="navbar" class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="#">Home</a></li>
+					<li><a id="add-scientist" data-toggle="modal" data-target="#insert-scientist-modal"
+						href="#">Add Scientist</a></li>
+                    <li><a id="add-project" data-toggle="modal" data-target="#insert-project-modal"
+						href="#">Add Project</a></li>
+                     <li><a id="get-GPS" data-toggle="modal"
+						href="#">Get GPS Cords</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="#" id="toggle-edit">Edit</a></li>
+					<li><a class="visible-md visible-lg" href="#">{{user_email}}</a></li>
+          				<li><a href="{{ logout_url }}">Sign out</a></li>
+				</ul>
+			</div>
+			<!--/.nav-collapse -->
+		</div>
+	</nav>
+
+
+
+<!-- 1st table here -->
+	<div class="container">
+		<h2>Currently Active Scientists</h2>
+		<div class="table-wrapper">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Scientist Name</th>
+						<th>DOB</th>
+						<th>Sex</th>
+						<th>Famous Discovery</th>
+						<th class="hidden edit-actions">Edits</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for science in science_query %}
+					<tr>
+						<td>{{ science.scientistName }}</td>
+						<td>{{ science.dateOfBirth }}</td>
+						<td>{{ science.sex.title() }}</td>
+						<td>{{ science.famousDiscovery }}</td>
+						<td class="hidden edit-actions">
+							<button  data-toggle="modal" data-target="#edit-scientist-modal" type="button" class="edit-science-data btn btn-xs btn-success">
+								Edit
+								<div class="hidden entity-key"> {{ science.key.urlsafe() }} </div>
+								<div class="hidden scientistName"> {{ science.scientistName }} </div>
+								<div class="hidden dateOfBirth"> {{ science.dateOfBirth }} </div>
+								<div class="hidden sex"> {{ science.sex }} </div>
+								<div class="hidden famousDiscovery"> {{ science.famousDiscovery }} </div>
+							</button>
+							<button  data-toggle="modal" data-target="#delete-scientist-modal" type="button" class="delete-scientist-data btn btn-xs btn-danger">
+								Delete
+								<div class="hidden entity-key"> {{ science.key.urlsafe() }} </div>
+							</button>
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+
+<br><br><hr>
+
+		<!-- 2ndd table here -->
+		<div class="table-wrapper">
+			<h2>Scientist Assigned Project</h2>
+            <h5>Remember: Once Longitude, Latitude, and Altitude are entered they cannot be edited.</h5>
+            <br>
+            <p>Longitude = <span id="long_results"></span></p>
+            <p>Latitude = <span id="lat_results"></span></p>
+            <p>Altitude = <span id="alt_results"></span></p>
+
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Scientist Name</th>
+						<th>Assigned Project</th>
+                        <th>Latitude</th>
+                        <th>Longitude</th>
+                        <th>Altitude</th>
+						<th class="hidden edit-actions">Edits</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for project in project_query %}
+					<tr>
+                        <td>{{ project.scientistName }}</td>
+						<td>{{ project.projectName }}</td>
+                        <td>{{ project.longitude }}</td>
+                        <td>{{ project.latitude }}</td>
+                        <td>{{ project.altitude }}</td>
+						<td class="hidden edit-actions">
+							<button  data-toggle="modal" data-target="#edit-project-modal" type="button" class="edit-project-data btn btn-xs btn-success">
+								Edit
+								<div class="hidden entity-key"> {{ project.key.urlsafe() }} </div>
+								<div class="hidden scientistName"> {{ project.scientistName }} </div>
+								<div class="hidden projectName"> {{ project.projectName }} </div>
+                                <div class="hidden longitude"> {{ project.longitude }} </div>
+                                <div class="hidden latitude"> {{ project.latitude }} </div>
+                                <div class="hidden altitude"> {{ project.altitude }} </div>
+							</button>
+							<button  data-toggle="modal" data-target="#delete-project-modal" type="button" class="delete-project-data btn btn-xs btn-danger">
+								Delete
+								<div class="hidden entity-key"> {{ project.key.urlsafe() }} </div>
+							</button>
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+
+
+
+
+	<!-- Insert Scientist Modal -->
+	<div class="modal fade" id="insert-scientist-modal" tabindex="-1"
+		role="dialog" aria-labelledby="Insert Scientist">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title"></h4>
+				</div>
+				<form action="/add_scientist" method="POST" class="form-horizontal" id="mainForm">
+					<input type="text" name="entity-key" class="hidden">
+					<div class="modal-body">
+						<div class="form-group">
+							<label for="scientist-input" class="col-sm-2 control-label">Name</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="scientist-name-input" class="scientist-name-input_class"
+									name="scientistName" placeholder="Scientist Name" required>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="scientist-input" class="col-sm-2 control-label">Date of Birth</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="dob-input"
+									name="dob" placeholder="DD-MM-YYYY" required>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="scientist-input" class="col-sm-2 control-label">Sex</label>
+							<label class="radio-inline">
+					          <input type="radio" name="inlineRadioOptions" id="maleRadio" value="male" required>Male</label>
+					        <label class="radio-inline">
+					          <input type="radio" name="inlineRadioOptions" id="femaleRadio" value="female" required>Female</label>
+						</div>
+						<div class="form-group">
+							<label for="scientist-input" class="col-sm-2 control-label">Famous Discovery</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="discovery-input"
+									name="famous_discovery" placeholder="Enter Discovery">
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal" id="cancel_click">Cancel</button>
+						<button type="submit" class="btn btn-primary" id="submit_click">Submit</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- Edit Scientist Modal -->
+	<div class="modal fade" id="edit-scientist-modal" tabindex="-1"
+		role="dialog" aria-labelledby="Insert Scientist">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title"></h4>
+				</div>
+				<form action="/edit_scientist" method="POST" class="form-horizontal" id="mainForm_edit">
+					<input type="text" name="entity-key" class="hidden">
+					<div class="modal-body">
+						<div class="form-group">
+							<label for="scientist-input" class="col-sm-2 control-label">Name</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="edit-name-input" class="scientist-name-edit_class"
+									name="scientistName" placeholder="Scientist Name" required>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="scientist-input" class="col-sm-2 control-label">Date of Birth</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="dob-input1"
+									name="dob" placeholder="DD-MM-YYYY" required>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="scientist-input" class="col-sm-2 control-label">Sex</label>
+							<label class="radio-inline">
+					          <input type="radio" name="inlineRadioOptions" id="maleRadio1" value="male" required>Male</label>
+					        <label class="radio-inline">
+					          <input type="radio" name="inlineRadioOptions" id="femaleRadio1" value="female" required>Female</label>
+						</div>
+						<div class="form-group">
+							<label for="scientist-input" class="col-sm-2 control-label">Famous Discovery</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="discovery-input1"
+									name="famous_discovery" placeholder="Enter Discovery">
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal" id="cancel_click_edit">Cancel</button>
+						<button type="submit" class="btn btn-primary" id="submit_click_edit">Submit</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- Delete Scientist Modal -->
+	<div class="modal fade" id="delete-scientist-modal" tabindex="-1"
+		role="dialog" aria-labelledby="Delete Scientist">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">Delete a Scientist</h4>
+				</div>
+				<form action="/delete_scientist" method="POST" class="form-horizontal">
+					<input type="text" name="entity_key" class="hidden">
+					<div class="modal-body">
+						<p>Are you sure you want to delete?</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+						<button type="submit" class="btn btn-danger">Delete Data</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+<!-- END  Delete Scientist Modal -->
+
+
+
+    <!-- INSERT PROJECT !!!!   Modal -->
+	<div class="modal fade" id="insert-project-modal" tabindex="-1"
+		role="dialog" aria-labelledby="Insert Scientist">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title"></h4>
+				</div>
+				<form action="/add_project" method="POST" class="form-horizontal" id="mainForm2">
+					<input type="text" name="entity-key" class="hidden">
+					<div class="modal-body">
+
+						<div class="form-group">
+							<label for="project-input" class="col-sm-2 control-label">Scientist Name</label>
+							<div class="col-sm-10">
+                                <select name="science_key" class="form-control">
+                                  {% for science in science_query %}
+                                    <option value="{{ science.scientistName }}">{{ science.scientistName }} </option>
+                                  {% endfor %}
+                                </select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="project-input" class="col-sm-2 control-label">Project</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="discovery-input2"
+									name="project_name" placeholder="Enter Project" required>
+							</div>
+						</div>
+                        <div class="form-group">
+							<label for="project-input" class="col-sm-2 control-label">Longitude</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="longitude-input2"
+									name="longitude_name" placeholder="Enter Longitude">
+							</div>
+						</div>
+                        <div class="form-group">
+							<label for="project-input" class="col-sm-2 control-label">Latitude</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="latitude-input2"
+									name="latitude_name" placeholder="Enter Latitude">
+							</div>
+						</div>
+                        <div class="form-group">
+							<label for="project-input" class="col-sm-2 control-label">Altitude</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="altitude-input2"
+									name="altitude_name" placeholder="Enter Altitude">
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal" id="cancel_click2">Cancle</button>
+						<button type="submit" class="btn btn-primary" id="submit_click2">Submit</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- END !!!! PROJECT !!!!   Modal -->
+
+
+    <!-- EDIT PROJECT !!!!   Modal -->
+	<div class="modal fade" id="edit-project-modal" tabindex="-1"
+		role="dialog" aria-labelledby="Insert Scientist">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title"></h4>
+				</div>
+				<form action="/edit_project" method="POST" class="form-horizontal" id="mainForm2-1">
+					<input type="text" name="entity-key" class="hidden">
+					<div class="modal-body">
+						<div class="form-group">
+							<label for="project-input" class="col-sm-2 control-label">Scientist Name</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="discovery-input3-2"
+									name="scientistName" placeholder="Enter Name">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="project-input" class="col-sm-2 control-label">Project</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="discovery-input3"
+									name="projectName" placeholder="Enter Project" required>
+							</div>
+						</div>
+
+                        <!--<div class="form-group">-->
+							<!--<label for="project-input" class="col-sm-2 control-label">Longitude</label>-->
+							<!--<div class="col-sm-10">-->
+								<!--<input type="text" class="form-control" id="longitude-input3"-->
+									<!--name="longitude_name" placeholder="Enter Longitude">-->
+							<!--</div>-->
+						<!--</div>-->
+                        <!--<div class="form-group">-->
+							<!--<label for="project-input" class="col-sm-2 control-label">Latitude</label>-->
+							<!--<div class="col-sm-10">-->
+								<!--<input type="text" class="form-control" id="latitude-input3"-->
+									<!--name="latitude_name" placeholder="Enter Latitude">-->
+							<!--</div>-->
+						<!--</div>-->
+                        <!--<div class="form-group">-->
+							<!--<label for="project-input" class="col-sm-2 control-label">Altitude</label>-->
+							<!--<div class="col-sm-10">-->
+								<!--<input type="text" class="form-control" id="altitude-input3"-->
+									<!--name="altitude_name" placeholder="Enter Altitude">-->
+							<!--</div>-->
+						<!--</div>-->
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal" id="cancel_click3">Cancel</button>
+						<button type="submit" class="btn btn-primary" id="submit_click3">Submit</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- END !!!! EDIT PROJECT !!!!   Modal -->
+
+
+	<!-- Delete Project Modal -->
+	<div class="modal fade" id="delete-project-modal" tabindex="-1"
+		role="dialog" aria-labelledby="Delete Scientist">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">Delete a Project</h4>
+				</div>
+				<form action="/delete_project" method="POST" class="form-horizontal">
+					<input type="text" name="entity_key" class="hidden">
+					<div class="modal-body">
+						<p>Are you sure you want to delete?</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+						<button type="submit" class="btn btn-danger">Delete Data</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+<!-- END  Delete Scientist Modal -->
+
+<!-- jQuery  -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<!-- Compiled and minified JavaScript -->
+	<script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	<script src="/static/js/science.js"> </script>
+</body>
+</html>

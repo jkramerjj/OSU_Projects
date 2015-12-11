@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+<title>Simple Sidebar - Start Bootstrap Template</title>
+
+<!-- Bootstrap Core CSS -->
+<link href="static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Custom CSS -->
+<link href="static/css/simple-sidebar.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+<div class="page-container">
+
+<!-- top navbar -->
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="offcanvas" data-target=".sidebar-nav"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+      <a class="navbar-brand" href="index.html">Twitter4J OAUTH / POST / GET Tutorial</a></div>
+  </div>
+</div>
+<div class="container">
+  <div class="row row-offcanvas row-offcanvas-left"> 
+    
+    <!-- sidebar -->
+    <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
+      <ul class="nav">
+        <li class="active"><a href="index.html">Step1 - Consumer & Access Tokens</a></li>
+        <li><a href="add_twitter4j.html">Step 2 - Add Twitter4J </a></li>
+        <li><a href="implement_oauth.html">Step 3 - Implement OAUTH</a></li>
+        <li><a href="post_get.html">Step 4 - POST & GET</a></li>
+      </ul>
+    </div>
+    
+    <!-- main area -->
+    <div class="col-xs-12 col-sm-9">
+      <h1>How to implement Twitter4J OAUTH / POST / GET</h1>
+      <p>If your like me you searched the internet for hours looking for a way to implement OAUTH, POST, and GET for a Twitter application within the Google App Engine / Android Studio environments, but the internet kept sending down rabbit holes. Well you're in the right place now, because this tutorial is designed to walk you through the steps of creating a successful Twitter OAUTH, POST, and GET for your Google App Engine or Android Studio Project.</p>
+      <p>We are going to start with how to get our OAUTH access strings from Twitter and then we will dive into the  Twitter4J Java library. &nbsp;The purpose here is to show you a quick and effective implementation of OAUTH, GET, and POST via the Twitter4J library. This library is used for both Google App Engine and Android Studio. I will focus  some additional tips for Android Studio developers.</p>
+      <p>In the end you will have  functioning Twitter OAUTH/GET/POST code that can be implemented in any Google App Engine or Android device. So get comfortable, prepare to read, prepare to practice, prepare to learn, and, if you've coded at all, prepare to debug.</p>
+      <p> OK Lets begin: <br>
+        First we're going to request the 4 required OAUTH credentials from Twitter's website. They are: 
+      <ol>
+                <li>Consumer Key (API KEY)</li>
+                <li>Consumer Secret (API SECRET)</li>
+                <li>Access Token</li>
+                <li>Access Token Secret </li>
+              </ol>
+        
+         <p>NOTE: Make sure to copy all 4 OAUTH credentials exactly, because they're kind of important. </p>
+         <p>&nbsp;</p>
+         <div class="row">
+        <div class="col-md-12">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3>My First OAUTH</h3>
+            </div>
+            <div class="panel-body"> *Warning* I assume you have at least some programming experience, an understand the basics of OOP and can code in Java. If these terms scare you, then you're not ready for this tutorial. I suggest you go to <a href="https://www.codecademy.com/">Codecademy</a> and take courses on OOP, GAE, Android, and Java then come back here. <br>
+              <br>
+              <h4>To start the key is to register the new application.</h4>
+              <p>Note: Make sure you <a href="https://twitter.com/login">log into Twitter</a> otherwise you will see "Access Denied". </p>
+              <p>Now you need to go to <a href="https://apps.twitter.com/app/new">https://apps.twitter.com/app/new</a> and register your new app. Luckily, for you, Twitter makes this process super simple. So follow the previous link and you should see something like:</p>
+              <h2 >Here is what you should see: </h2>
+              <div class="col-md-12"> <img src="static/images/pic1.png" class="img-responsive"/> </div>
+              <p> Is this similar to what you see? If not here are some common issues</p>
+              <ul>
+                <li>Twitter may have updated their link. If so Google Search "Register new Twitter app"</li>
+                <li>Make sure you are logged into Twitter</li>
+              </ul>
+              <br>
+              <br>
+              <h4>OK, now lets make sure you've got the most vital pieces of information.</h4>
+              <p>We are looking for 4 important pieces to this puzzle. </p>
+              <ol>
+                <li>Consumer Key (API KEY)</li>
+                <li>Consumer Secret (API SECRET)</li>
+                <li>Access Token</li>
+                <li>Access Token Secret </li>
+              </ol>
+              <pre >ConsumerKey = pXNmb60wASur8RS8ToMGmlWOY
+ConsumeSecret = FhiqLN1Fng2FWEyYXIgtO2NCpgZhtNZ4OBUIPuEftqYZLQOWeX
+AccessToken = 4294534-Jf4199vp1vl9M8dW4XX8kRDJIri4wMlGllkc0sKbD
+AccessSecret = 7ZmUNulfEizL4KYZ55nG0QsRRAXAAWeENNdoHxxGldJApR</pre>
+              <p>Remember to save all 4 pieces of data, because they are vital for making this work. If you're interested in learning more about these 4 pieces of the OAUTH puzzle please visit <a href="https://dev.twitter.com/oauth">Twitter Dev</a> to learn more.</p>
+            </div>
+          </div>
+          <h3>Nice job! Click <a href="add_twitter4j.html">here</a> to learn how to add Twitter4J to your Java library</h3>
+          <p>&nbsp;</p>
+          <p>&nbsp;</p>
+          <p>&nbsp;</p>
+        </div>
+      </div>
+      <!-- /.col-xs-12 main --> 
+    </div>
+    <!--/.row--> 
+  </div>
+  <!--/.container--> 
+</div>
+<!--/.page-container--> 
+
+<!-- jQuery --> 
+<script src="static/js/jquery.js"></script> 
+
+<!-- Bootstrap Core JavaScript --> 
+<script src="static/js/bootstrap.min.js"></script> 
+
+<!-- Menu Toggle Script --> 
+<script>
+
+	$(document).ready(function() {
+  $('[data-toggle=offcanvas]').click(function() {
+    $('.row-offcanvas').toggleClass('active');
+  });
+});
+    </script>
+</body>
+</html>

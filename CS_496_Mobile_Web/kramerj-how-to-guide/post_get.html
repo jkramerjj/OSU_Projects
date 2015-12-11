@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+<title>Simple Sidebar - Start Bootstrap Template</title>
+
+<!-- Bootstrap Core CSS -->
+<link href="static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Custom CSS -->
+<link href="static/css/simple-sidebar.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+<div class="page-container">
+
+<!-- top navbar -->
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="offcanvas" data-target=".sidebar-nav"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+      <a class="navbar-brand" href="index.html">Twitter4J OAUTH / POST / GET Tutorial</a> </div>
+  </div>
+</div>
+<div class="container">
+<div class="row row-offcanvas row-offcanvas-left"> 
+  
+  <!-- sidebar -->
+  <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
+    <ul class="nav">
+      <li class="active"><a href="index.html">Step1 - Consumer & Access Tokens</a></li>
+      <li><a href="add_twitter4j.html">Step 2 - Add Twitter4J </a></li>
+      <li><a href="implement_oauth.html">Step 3 - Implement OAUTH</a></li>
+      <li><a href="post_get.html">Step 4 - POST & GET</a></li>
+    </ul>
+  </div>
+  
+  <!-- main area -->
+  <div class="col-xs-12 col-sm-9">
+    <h1>Twitter POST &amp; GET</h1>
+    <p>So now we are off to the fun stuff. Lets make this API do work! </p>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3>Making the API Work</h3>
+          </div>
+          <div class="panel-body">
+            <p>Alright, so now we have OAUTH running within our Twitter application. </p>
+            <p>Now it's time we use the Twitter API for POST and GET. We want to POST a tweet and then GET a list of most recent tweets. </p>
+            <p>&nbsp;</p>
+            <h3>POST</h3>
+            <p>As we have seen, we can start by declaring our objects and instantiating our classes. &nbsp; &nbsp; &nbsp; <br>
+            </p>
+            <pre >Twitter&#32;newTwitter&#32;=&#32;new&#32;TwitterFactory().getInstance();</pre>
+            <p>Now I'm going to assume you have got a tweet string form the user and placed it into a variable called <strong>NewTweet</strong>. If this isn't making sense I suggest reading this basic <a href="http://developer.android.com/training/basics/firstapp/index.html">Android Development Tutorial</a> to get a better understanding of how to use TextView and XML. Or I suggest reading the <a href="https://cloud.google.com/appengine/docs">Google App Engine Tutorial</a> to get better undestanding of HTML forms. </p>
+            <p>OK, so now we'll go ahead and take our <strong>newTwitter</strong> object and run the .<strong>updateStatus() </strong>method, while passing in our <strong>newTweet</strong> string.</p>
+            <pre>newTwitter.updateStatus(newTweet);</pre>
+            <p>That's it. You have just sent a POST with your new Tweet to Twitter. </p>
+            <p>&nbsp;</p>
+            <h3>GET</h3>
+            <p>As before we can start by declaring our objects and instantiating our classes. &nbsp; &nbsp; &nbsp; <br>
+      </p>
+            <pre >Twitter&#32;newTwitter&#32;=&#32;new&#32;TwitterFactory().getInstance();</pre>
+            <p>Next we take our <strong>newTwitter</strong> object and we run the <strong>.getUserTimeline() </strong>method. </p>
+            <pre>newTwitter.getUserTimeline()</pre>
+            <p>That's it. With those two lines of code you can GET an entire JSON list of all your tweets. From there you can place the tweets into a list array and print it to screen. </p>
+            <p>&nbsp;</p>
+            <h3 >Here's a final bonus, because I know printing a Twitter JSON has it's own set of challenges:</h3>
+            <pre>protected&#32;void&#32;onPostExecute(List&lt;twitter4j.Status&gt;&#32;statusHolder){<br>&#32;&#32;&#32;&#32;for(twitter4j.Status&#32;statsPlace&#32;:&#32;statusHolder){<br>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;twitter_array.add(statsPlace.getText());<br>&#32;&#32;&#32;&#32;}<br>&#32;&#32;&#32;&#32;ArrayAdapter&lt;String&gt;&#32;adapterArray&#32;=&#32;new&#32;ArrayAdapter&lt;String&gt;(TwitterList.this,&#32;android.R.layout.simple_list_item_1,&#32;twitter_array);<br>&#32;&#32;&#32;&#32;list_of_twitter.setAdapter(adapterArray);<br>}</pre>
+            <p >The trick is declaring a ListView and a new ArrayList() before running the code above</p>
+            <pre>private&#32;ListView&#32;list_of_twitter;<br>private&#32;List&lt;String&gt;&#32;twitter_array&#32;=&#32;new&#32;ArrayList&lt;String&gt;();</pre>
+            <p >&nbsp;</p>
+            <h4> Are you having some errors? </h4>
+            <ul>
+              <li>Use log statement to trace your issue. (I use this all the time)
+                <pre>Log.i(TAG,&#32;"Problem Found");</pre>
+              </li>
+              <li>Learn Android Studio's or PyCharm's debug feature. </li>
+              <li>Check your Java Library's</li>
+              <li>Check your buidle.gradle is loading Twitter4j correctly</li>
+              <li>Some class cannot be renamed, such as: onPostExecute.</li>
+            </ul>
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+            <h4>Well CONGRADUATLIONS you have just implemented OAUTH, POST, and GET on your new App. Now you can go tell all your friends about your new skills. Enjoy. </h4>
+          </div>
+        </div>
+      </div>
+      <br>
+      <h3>Thank you for reading my tutorial on the power of Twitter4J. I hope you've learned something new about OAUTH,  POST, &amp; GET features. </h3>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <div class="row"> </div>
+      <!-- /.col-xs-12 main --> 
+    </div>
+    <!--/.row--> 
+  </div>
+  <!--/.container--> 
+</div>
+<!--/.page-container--> 
+
+<!-- jQuery --> 
+<script src="static/js/jquery.js"></script> 
+
+<!-- Bootstrap Core JavaScript --> 
+<script src="static/js/bootstrap.min.js"></script> 
+
+<!-- Menu Toggle Script --> 
+<script>
+
+	$(document).ready(function() {
+  $('[data-toggle=offcanvas]').click(function() {
+    $('.row-offcanvas').toggleClass('active');
+  });
+});
+    </script>
+</body>
+</html>

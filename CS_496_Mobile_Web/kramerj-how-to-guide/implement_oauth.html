@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+<title>Simple Sidebar - Start Bootstrap Template</title>
+
+<!-- Bootstrap Core CSS -->
+<link href="static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Custom CSS -->
+<link href="static/css/simple-sidebar.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+<div class="page-container">
+
+<!-- top navbar -->
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="offcanvas" data-target=".sidebar-nav"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+      <a class="navbar-brand" href="index.html">Twitter4J OAUTH / POST / GET Tutorial</a> </div>
+  </div>
+</div>
+<div class="container">
+<div class="row row-offcanvas row-offcanvas-left"> 
+  
+  <!-- sidebar -->
+  <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
+    <ul class="nav">
+      <li class="active"><a href="index.html">Step1 - Consumer & Access Tokens</a></li>
+      <li><a href="add_twitter4j.html">Step 2 - Add Twitter4J </a></li>
+      <li><a href="implement_oauth.html">Step 3 - Implement OAUTH</a></li>
+      <li><a href="post_get.html">Step 4 - POST & GET</a></li>
+    </ul>
+  </div>
+  
+  <!-- main area -->
+  <div class="col-xs-12 col-sm-9">
+    <h1>Implementing OAUTH</h1>
+    <p>So now we are off to the fun stuff. Lets make this API do work! </p>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3>Making the API Work</h3>
+          </div>
+          <div class="panel-body">
+            <p>Alright, so now we have all the tools we need to make an OAUTH system for our Twitter Application. </p>
+            <p>Remember the Consumer Keys and Access Tokens. Well for good programming practice lets put those into their own string variable. </p>
+            <pre>static&#32;String&#32;consumKey&#32;=&#32;"pXNmb60wASur8An8T7eGmlWOY";<br>static&#32;String&#32;consumSecret&#32;=&#32;"FhiqLN1Fng2SH4yY33gtO2NCpgZhtNZ4OBUIPuEftqYZLQOWeX";<br>static&#32;String&#32;accessKey=&#32;"42945533-Jf4199vp1vl9M8dW4we8kRDJIri4wMlGllkc0sKbD";<br>static&#32;String&#32;accesSecret&#32;=&#32;"7ZmUNulfEizL4KYZ55nG0QswfAXBheENddoHxxGldJApR";</pre>
+            <p>&nbsp;</p>
+            <p>Now we can start by declaring our objects and instantiating our classes. &nbsp; &nbsp; &nbsp; <br>
+            </p>
+            <pre >Twitter&#32;newTwitter&#32;=&#32;new&#32;TwitterFactory().getInstance();</pre>
+            <p>Next we take our <strong>newTwitter</strong> object and we run the <strong>.setOAuthConsumer </strong>method. Here we are going to pass in our <strong>Consumer Key</strong> and <strong>Consumer Secret</strong> from before.</p>
+            <pre>newTwitter.setOAuthConsumer(consumKey,&#32;consumSecret);</pre>
+            <p>&nbsp;</p>
+            <p>Remember the<strong> Access tokens</strong>? Now it's their turn to participate. Here we declare another object and instantiate another class like so; however this time we will immediately pass in our<strong> Access Key</strong> and <strong>Access Secret</strong> from before. </p>
+            <pre>AccessToken&#32;accessToken&#32;=&#32;new&#32;AccessToken(accessKey,&#32;accesSecret);</pre>
+            <p>Finally take our new<strong> accessToken</strong> object and pass it into the <strong>newTwitter</strong> objects <strong>.setOAuthAccessToken()</strong> method.</p>
+            <pre>newTwitter.setOAuthAccessToken(accessToken);</pre>
+            <p>&nbsp;</p>
+            <br>
+            <h3 >Now thats pretty easy. All together your code will look something like this: </h3>
+            <pre>Twitter&#32;newTwitter&#32;=&#32;new&#32;TwitterFactory().getInstance();<br>newTwitter.setOAuthConsumer(consumKey,&#32;consumSecret);<br>AccessToken&#32;accessToken&#32;=&#32;new&#32;AccessToken(accessKey,&#32;accesSecret);<br>newTwitter.setOAuthAccessToken(accessToken);</pre>
+            <p >&nbsp;</p>
+            <h4>But because I know you came here looking for all the answers, let me clue you in on a little secret. All this codes must be ran in the background of your GAE or Android App. Therefore we need to use the power of inheritance and, no it's not what happens when grandma passes on, it's a powerful OOP concept and it allows us to tap into the power of another class. Namely: AsyncTask</h4>
+            <h4>In order to make all this work we will need to:</h4>
+            <ol>
+              <li>Create a TwitterOAuth Class</li>
+              <li>Inherit from the AsyncTask Class</li>
+              <li>Create a doInBackgound method</li>
+              <li>Handle error catching</li>
+            </ol>
+            <p>&nbsp;</p>
+            <p>This is how it should all look:</p>
+            <pre>class&#32;TwitterOAuth&#32;extends&#32;AsyncTask&lt;String,&#32;String,&#32;String&gt;&#32;{<br>&#32;&#32;&#32;&#32;protected&#32;String&#32;doInBackground(String...&#32;args)&#32;{<br>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;try&#32;{<br>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Twitter&#32;newTwitter&#32;=&#32;new&#32;TwitterFactory().getInstance();<br>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;newTwitter.setOAuthConsumer(consumKey,&#32;consumSecret);<br>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;AccessToken&#32;accessToken&#32;=&#32;new&#32;AccessToken(accessKey,&#32;accesSecret);<br><br>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;newTwitter.setOAuthAccessToken(accessToken);
+    } catch&#32;(TwitterException&#32;t)&#32;{<br>&#32;&#32;&#32;&#32;t.printStackTrace();
+    }
+  }
+}</pre>
+            <p>&nbsp;</p>
+            <h4> Are you having some errors? </h4>
+            <ul>
+              <li>Use log statements to trace your issue. (I use this all the time)
+                <pre>Log.i(TAG,&#32;"Problem Found");</pre>
+              </li>
+              <li>Learn Android Studio's debug feature. </li>
+              <li>Develope GAE in <a href="https://www.jetbrains.com/pycharm/download/">PyCharm</a>, which comes with a Python debugger built it. </li>
+              <li>Check your Java Library's</li>
+              <li>Maks sure your buidle.gradle loaded Twitter4j correctly</li>
+            </ul>
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+            <h4>And that's how we implement OAUTH via Twitter4j. What do you think? Quite the powerful library, when you call a few methods to do all the heavy lifting. I recommend the official <a href="https://dev.twitter.com/rest/public">Twitter Development website</a> for more indeph information on OAUTH. I think it's a good read and it gives a better appreciation of Twitter4J. </h4>
+            <p>&nbsp;</p>
+          </div>
+        </div>
+      </div>
+      <br>
+      <h3>Nice job! Click <a href="post_get.html">here</a> to learn about Twitter4J POST &amp; GET!</h3>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <div class="row"> </div>
+      <!-- /.col-xs-12 main --> 
+    </div>
+    <!--/.row--> 
+  </div>
+  <!--/.container--> 
+</div>
+<!--/.page-container--> 
+
+<!-- jQuery --> 
+<script src="static/js/jquery.js"></script> 
+
+<!-- Bootstrap Core JavaScript --> 
+<script src="static/js/bootstrap.min.js"></script> 
+
+<!-- Menu Toggle Script --> 
+<script>
+
+	$(document).ready(function() {
+  $('[data-toggle=offcanvas]').click(function() {
+    $('.row-offcanvas').toggleClass('active');
+  });
+});
+    </script>
+</body>
+</html>

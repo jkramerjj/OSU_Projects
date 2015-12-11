@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+
+<script language="javascript" type="text/javascript">
+function goBack() 
+{
+	window.location.replace('http://kramerj-final-project.appspot.com/');
+	//window.location.replace('http://localhost:8080');
+}
+</script>
+
+<html>
+  <head>
+    <title>Error Page</title>
+   <link rel="stylesheet" type="text/css" href="/static/stylesheets/science.css">
+  </head>
+
+<body>
+  <h1>Sorry, an error occurred while entering Scientist Data!</h1>
+  <h2>Please remember to:</h2>
+  <h3>Enter a Scientist's Name</h3>   
+  <h3>Enter DOB as DD-MM-YYYY</h3> 
+  <h3>Choose a sex --> Male / Female</h3>   
+  <h3>Choose at least one specialty</h3>   
+  
+  <br>
+  <br>
+  <button class="error_back_button" onclick="goBack()">Back</button>
+</body>
+
